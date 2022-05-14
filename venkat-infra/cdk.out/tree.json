@@ -16,29 +16,332 @@
         "id": "VenkatInfraStack",
         "path": "VenkatInfraStack",
         "children": {
-          "VenkatCdkBucket1234qwert1sd": {
-            "id": "VenkatCdkBucket1234qwert1sd",
-            "path": "VenkatInfraStack/VenkatCdkBucket1234qwert1sd",
+          "VenkatQueue1": {
+            "id": "VenkatQueue1",
+            "path": "VenkatInfraStack/VenkatQueue1",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "VenkatInfraStack/VenkatCdkBucket1234qwert1sd/Resource",
+                "path": "VenkatInfraStack/VenkatQueue1/Resource",
                 "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
-                  "aws:cdk:cloudformation:props": {
-                    "versioningConfiguration": {
-                      "status": "Enabled"
-                    }
-                  }
+                  "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
+                  "aws:cdk:cloudformation:props": {}
                 },
                 "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
                   "version": "2.16.0"
                 }
               }
             },
             "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "fqn": "aws-cdk-lib.aws_sqs.Queue",
+              "version": "2.16.0"
+            }
+          },
+          "VenkatFunction1": {
+            "id": "VenkatFunction1",
+            "path": "VenkatInfraStack/VenkatFunction1",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "VenkatInfraStack/VenkatFunction1/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VenkatInfraStack/VenkatFunction1/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.16.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.16.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "VenkatInfraStack/VenkatFunction1/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "VenkatInfraStack/VenkatFunction1/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.16.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "VenkatInfraStack/VenkatFunction1/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.16.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.16.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VenkatInfraStack/VenkatFunction1/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "94b366638a4503d2f2ce5f6e7ed496ddc7971adcfa0413ff07f10d8884e1795e.zip"
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "VenkatFunction1ServiceRole2F0ADFD8",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "lambda2.lambda_handler",
+                    "runtime": "python3.9"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.16.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.16.0"
+            }
+          },
+          "VenkatFunction2": {
+            "id": "VenkatFunction2",
+            "path": "VenkatInfraStack/VenkatFunction2",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "VenkatInfraStack/VenkatFunction2/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VenkatInfraStack/VenkatFunction2/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.16.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "VenkatInfraStack/VenkatFunction2/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VenkatInfraStack/VenkatFunction2/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "sqs:ReceiveMessage",
+                                    "sqs:ChangeMessageVisibility",
+                                    "sqs:GetQueueUrl",
+                                    "sqs:DeleteMessage",
+                                    "sqs:GetQueueAttributes"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "VenkatQueue1D2E0562D",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "VenkatFunction2ServiceRoleDefaultPolicy78F19092",
+                            "roles": [
+                              {
+                                "Ref": "VenkatFunction2ServiceRole93C3F041"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.16.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.16.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.16.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "VenkatInfraStack/VenkatFunction2/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "VenkatInfraStack/VenkatFunction2/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.16.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "VenkatInfraStack/VenkatFunction2/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.16.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.16.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "VenkatInfraStack/VenkatFunction2/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "5defc5755c441b20843a1addfca68f9f40292a5cef73f2ff0e0fb95da2aec836.zip"
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "VenkatFunction2ServiceRole93C3F041",
+                        "Arn"
+                      ]
+                    },
+                    "handler": "lambda1.lambda_handler",
+                    "runtime": "python3.9"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.16.0"
+                }
+              },
+              "SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20": {
+                "id": "SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20",
+                "path": "VenkatInfraStack/VenkatFunction2/SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "VenkatInfraStack/VenkatFunction2/SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
+                      "aws:cdk:cloudformation:props": {
+                        "functionName": {
+                          "Ref": "VenkatFunction22571F974"
+                        },
+                        "batchSize": 10,
+                        "eventSourceArn": {
+                          "Fn::GetAtt": [
+                            "VenkatQueue1D2E0562D",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnEventSourceMapping",
+                      "version": "2.16.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.EventSourceMapping",
+                  "version": "2.16.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
               "version": "2.16.0"
             }
           },

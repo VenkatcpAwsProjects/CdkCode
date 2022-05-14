@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8bbcb57be88dfbbaca484d5cd02b77a0390e25513c62dc9284305e2a17acf7ce.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcbbba1f2d2c3ad27f1d3dc07b3a6b8131ff3c8ee868cc6a8d84c4cd768c1c37.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -39,10 +39,46 @@
         "VenkatInfraStack.assets"
       ],
       "metadata": {
-        "/VenkatInfraStack/VenkatCdkBucket1234qwert1sd/Resource": [
+        "/VenkatInfraStack/VenkatQueue1/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatCdkBucket1234qwert1sdCD9D607D"
+            "data": "VenkatQueue1D2E0562D"
+          }
+        ],
+        "/VenkatInfraStack/VenkatFunction1/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatFunction1ServiceRole2F0ADFD8"
+          }
+        ],
+        "/VenkatInfraStack/VenkatFunction1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatFunction14E9CD1C7"
+          }
+        ],
+        "/VenkatInfraStack/VenkatFunction2/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatFunction2ServiceRole93C3F041"
+          }
+        ],
+        "/VenkatInfraStack/VenkatFunction2/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatFunction2ServiceRoleDefaultPolicy78F19092"
+          }
+        ],
+        "/VenkatInfraStack/VenkatFunction2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatFunction22571F974"
+          }
+        ],
+        "/VenkatInfraStack/VenkatFunction2/SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatFunction2SqsEventSourceVenkatInfraStackVenkatQueue1DF56FB20CA09F5D4"
           }
         ],
         "/VenkatInfraStack/CDKMetadata/Default": [

@@ -1,7 +1,11 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_s3 as s3 } from 'aws-cdk-lib';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as path from 'path';
+import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+
 
 export class VenkatInfraStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -13,8 +17,35 @@ export class VenkatInfraStack extends Stack {
     // const queue = new sqs.Queue(this, 'VenkatInfraQueue', {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
-    var bucket1 = new s3.Bucket(this, 'VenkatCdkBucket1234qwert1sd', {
-      versioned: true
+    // var bucket1 = new s3.Bucket(this, 'VenkatFirstS3', {
+    //   versioned: true
+    // });
+
+    // var bucket2 = new s3.Bucket(this, 'VenkatSecondS3', {
+    //   versioned: true
+    // });
+
+    var q1 = new sqs.Queue(this, 'VenkatQueue1');
+    console.log(q1.queueName);
+    var producerPath = path.join(__dirname, 'producer-lambda');
+    var consumerPath = path.join(__dirname, 'consumer-lambda');
+    var lambda1 = new lambda.Function(this, 'VenkatFunction1', {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      handler: 'lambda2.lambda_handler',
+      code: lambda.Code.fromAsset(producerPath),
     });
+
+    var lambda2 = new lambda.Function(this, 'VenkatFunction2', {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      handler: 'lambda1.lambda_handler',
+      code: lambda.Code.fromAsset(consumerPath),
+      timeout : Duration.minutes(2),
+    });
+
+    lambda2.addEventSource(
+      new SqsEventSource(q1, {
+        batchSize: 10,
+      }),
+    );
   }
 }
