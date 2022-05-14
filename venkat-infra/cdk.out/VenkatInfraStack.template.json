@@ -68,6 +68,39 @@
         "aws:cdk:path": "VenkatInfraStack/VenkatFunction1/ServiceRole/Resource"
       }
     },
+    "VenkatFunction1ServiceRoleDefaultPolicy78F1400A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VenkatQueue1D2E0562D",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VenkatFunction1ServiceRoleDefaultPolicy78F1400A",
+        "Roles": [
+          {
+            "Ref": "VenkatFunction1ServiceRole2F0ADFD8"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VenkatInfraStack/VenkatFunction1/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
     "VenkatFunction14E9CD1C7": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -75,7 +108,7 @@
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
           },
-          "S3Key": "cd40fbed2f64fc7ae848c6e9f0fb725ed737d0d1e57ace836a3517b34d7f61ef.zip"
+          "S3Key": "0cd72b51d7341d1d6f61b3f62c3822b7c2d4a6c41ffd1b50fe72e52a821963a7.zip"
         },
         "Role": {
           "Fn::GetAtt": [
@@ -94,14 +127,16 @@
           }
         },
         "Handler": "lambda2.lambda_handler",
-        "Runtime": "python3.9"
+        "Runtime": "python3.9",
+        "Timeout": 180
       },
       "DependsOn": [
+        "VenkatFunction1ServiceRoleDefaultPolicy78F1400A",
         "VenkatFunction1ServiceRole2F0ADFD8"
       ],
       "Metadata": {
         "aws:cdk:path": "VenkatInfraStack/VenkatFunction1/Resource",
-        "aws:asset:path": "asset.cd40fbed2f64fc7ae848c6e9f0fb725ed737d0d1e57ace836a3517b34d7f61ef",
+        "aws:asset:path": "asset.0cd72b51d7341d1d6f61b3f62c3822b7c2d4a6c41ffd1b50fe72e52a821963a7",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
       }
@@ -210,7 +245,7 @@
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
           },
-          "S3Key": "7431522d72beab15b015d3996997c85f02f3d9aa3073e47aedad370d12670d13.zip"
+          "S3Key": "edf7b5d8ee78085d551d427f3ceffa8a2e575aa8d0c9ebeaa7489a0081561a38.zip"
         },
         "Role": {
           "Fn::GetAtt": [
@@ -235,7 +270,7 @@
       ],
       "Metadata": {
         "aws:cdk:path": "VenkatInfraStack/VenkatFunction2/Resource",
-        "aws:asset:path": "asset.7431522d72beab15b015d3996997c85f02f3d9aa3073e47aedad370d12670d13",
+        "aws:asset:path": "asset.edf7b5d8ee78085d551d427f3ceffa8a2e575aa8d0c9ebeaa7489a0081561a38",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
       }

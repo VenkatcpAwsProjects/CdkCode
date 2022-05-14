@@ -39,6 +39,7 @@ export class VenkatInfraStack extends Stack {
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: 'lambda2.lambda_handler',
       code: lambda.Code.fromAsset(producerPath),
+      timeout : Duration.minutes(3),
       environment : {
         "queue_name": q1.queueName,
       },
@@ -53,7 +54,7 @@ export class VenkatInfraStack extends Stack {
         "execution_db_name": table.tableName,
       },
     });
-
+    q1.grantSendMessages(lambda1);
     table.grantReadWriteData(lambda2);
 
     lambda2.addEventSource(

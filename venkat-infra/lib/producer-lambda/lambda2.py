@@ -18,6 +18,7 @@ def send_sqs_message(QueueName, msg_body):
     sqs_queue_url = sqs_client.get_queue_url(
     QueueName=QueueName
 )['QueueUrl']
+    print("venkat007 : a "+QueueName)
     try:
         msg = sqs_client.send_message(QueueUrl=sqs_queue_url,
                                       MessageBody=json.dumps(msg_body))
@@ -31,6 +32,7 @@ def lambda_handler(event, context):
     """Exercise send_sqs_message()"""
 
     QueueName = os.environ.get("queue_name")
+    print("venkat007 " + QueueName)
 
     # Set up logging
     logging.basicConfig(level=logging.DEBUG,

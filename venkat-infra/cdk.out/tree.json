@@ -131,6 +131,54 @@
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
                       "version": "2.16.0"
                     }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "VenkatInfraStack/VenkatFunction1/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VenkatInfraStack/VenkatFunction1/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "sqs:SendMessage",
+                                    "sqs:GetQueueAttributes",
+                                    "sqs:GetQueueUrl"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "VenkatQueue1D2E0562D",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "VenkatFunction1ServiceRoleDefaultPolicy78F1400A",
+                            "roles": [
+                              {
+                                "Ref": "VenkatFunction1ServiceRole2F0ADFD8"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.16.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.16.0"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -174,7 +222,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "cd40fbed2f64fc7ae848c6e9f0fb725ed737d0d1e57ace836a3517b34d7f61ef.zip"
+                      "s3Key": "0cd72b51d7341d1d6f61b3f62c3822b7c2d4a6c41ffd1b50fe72e52a821963a7.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -193,7 +241,8 @@
                       }
                     },
                     "handler": "lambda2.lambda_handler",
-                    "runtime": "python3.9"
+                    "runtime": "python3.9",
+                    "timeout": 180
                   }
                 },
                 "constructInfo": {
@@ -374,7 +423,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "7431522d72beab15b015d3996997c85f02f3d9aa3073e47aedad370d12670d13.zip"
+                      "s3Key": "edf7b5d8ee78085d551d427f3ceffa8a2e575aa8d0c9ebeaa7489a0081561a38.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
