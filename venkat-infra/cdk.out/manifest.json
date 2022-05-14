@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcbbba1f2d2c3ad27f1d3dc07b3a6b8131ff3c8ee868cc6a8d84c4cd768c1c37.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fcedb1bcaed688a2b7bc0865dc6ecda243c2b48a8c9f3a1885a613a2581fde42.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -43,6 +43,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "VenkatQueue1D2E0562D"
+          }
+        ],
+        "/VenkatInfraStack/VenkatExecutionDetails/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VenkatExecutionDetails6D1FC840"
           }
         ],
         "/VenkatInfraStack/VenkatFunction1/ServiceRole/Resource": [

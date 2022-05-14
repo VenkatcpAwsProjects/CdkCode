@@ -38,6 +38,53 @@
               "version": "2.16.0"
             }
           },
+          "VenkatExecutionDetails": {
+            "id": "VenkatExecutionDetails",
+            "path": "VenkatInfraStack/VenkatExecutionDetails",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VenkatInfraStack/VenkatExecutionDetails/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "keySchema": [
+                      {
+                        "attributeName": "appealId",
+                        "keyType": "HASH"
+                      }
+                    ],
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "appealId",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "provisionedThroughput": {
+                      "readCapacityUnits": 5,
+                      "writeCapacityUnits": 5
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.16.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "VenkatInfraStack/VenkatExecutionDetails/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.16.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.16.0"
+            }
+          },
           "VenkatFunction1": {
             "id": "VenkatFunction1",
             "path": "VenkatInfraStack/VenkatFunction1",
@@ -127,13 +174,23 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "94b366638a4503d2f2ce5f6e7ed496ddc7971adcfa0413ff07f10d8884e1795e.zip"
+                      "s3Key": "cd40fbed2f64fc7ae848c6e9f0fb725ed737d0d1e57ace836a3517b34d7f61ef.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
                         "VenkatFunction1ServiceRole2F0ADFD8",
                         "Arn"
                       ]
+                    },
+                    "environment": {
+                      "variables": {
+                        "queue_name": {
+                          "Fn::GetAtt": [
+                            "VenkatQueue1D2E0562D",
+                            "QueueName"
+                          ]
+                        }
+                      }
                     },
                     "handler": "lambda2.lambda_handler",
                     "runtime": "python3.9"
@@ -209,6 +266,34 @@
                           "aws:cdk:cloudformation:props": {
                             "policyDocument": {
                               "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:UpdateItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "VenkatExecutionDetails6D1FC840",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                },
                                 {
                                   "Action": [
                                     "sqs:ReceiveMessage",
@@ -289,7 +374,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "5defc5755c441b20843a1addfca68f9f40292a5cef73f2ff0e0fb95da2aec836.zip"
+                      "s3Key": "7431522d72beab15b015d3996997c85f02f3d9aa3073e47aedad370d12670d13.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -297,8 +382,16 @@
                         "Arn"
                       ]
                     },
+                    "environment": {
+                      "variables": {
+                        "execution_db_name": {
+                          "Ref": "VenkatExecutionDetails6D1FC840"
+                        }
+                      }
+                    },
                     "handler": "lambda1.lambda_handler",
-                    "runtime": "python3.9"
+                    "runtime": "python3.9",
+                    "timeout": 120
                   }
                 },
                 "constructInfo": {

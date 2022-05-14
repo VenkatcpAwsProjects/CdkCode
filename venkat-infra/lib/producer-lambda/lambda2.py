@@ -2,6 +2,7 @@ import json
 import logging
 import boto3
 from botocore.exceptions import ClientError
+import os
 
 def send_sqs_message(QueueName, msg_body):
     """
@@ -29,7 +30,8 @@ def send_sqs_message(QueueName, msg_body):
 def lambda_handler(event, context):
     """Exercise send_sqs_message()"""
 
-    QueueName = 'Test'
+    QueueName = os.environ.get("queue_name")
+
     # Set up logging
     logging.basicConfig(level=logging.DEBUG,
                         format='%(levelname)s: %(asctime)s: %(message)s')

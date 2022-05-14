@@ -5,6 +5,7 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as path from 'path';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 
 
 export class VenkatInfraStack extends Stack {
@@ -29,10 +30,18 @@ export class VenkatInfraStack extends Stack {
     console.log(q1.queueName);
     var producerPath = path.join(__dirname, 'producer-lambda');
     var consumerPath = path.join(__dirname, 'consumer-lambda');
+
+    const table = new dynamodb.Table(this, 'VenkatExecutionDetails', {
+      partitionKey: { name: 'appealId', type: dynamodb.AttributeType.STRING },
+    });
+
     var lambda1 = new lambda.Function(this, 'VenkatFunction1', {
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: 'lambda2.lambda_handler',
       code: lambda.Code.fromAsset(producerPath),
+      environment : {
+        "queue_name": q1.queueName,
+      },
     });
 
     var lambda2 = new lambda.Function(this, 'VenkatFunction2', {
@@ -40,7 +49,12 @@ export class VenkatInfraStack extends Stack {
       handler: 'lambda1.lambda_handler',
       code: lambda.Code.fromAsset(consumerPath),
       timeout : Duration.minutes(2),
+      environment : {
+        "execution_db_name": table.tableName,
+      },
     });
+
+    table.grantReadWriteData(lambda2);
 
     lambda2.addEventSource(
       new SqsEventSource(q1, {
