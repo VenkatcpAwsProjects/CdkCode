@@ -5,15 +5,6 @@ from botocore.exceptions import ClientError
 import os
 
 def send_sqs_message(QueueName, msg_body):
-    """
-
-    :param sqs_queue_url: String URL of existing SQS queue
-    :param msg_body: String message body
-    :return: Dictionary containing information about the sent message. If
-        error, returns None.
-    """
-
-    # Send the SQS message
     sqs_client = boto3.client('sqs')
     sqs_queue_url = sqs_client.get_queue_url(
     QueueName=QueueName
@@ -29,11 +20,7 @@ def send_sqs_message(QueueName, msg_body):
 
 
 def lambda_handler(event, context):
-    """Exercise send_sqs_message()"""
-
-    QueueName = os.environ.get("queue_name")
-    print("venkat007 " + QueueName)
-
+    QueueName = os.environ.get("amz_queue_name")
     # Set up logging
     logging.basicConfig(level=logging.DEBUG,
                         format='%(levelname)s: %(asctime)s: %(message)s')
