@@ -6,15 +6,40 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as path from 'path';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { AccountPrincipal, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 export class VenkatInfraStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    //The code to create role and policy
+    var accId = "161069081910";
+    var a = new AccountPrincipal(accId);
+    const role = new iam.Role(this, 'CategoryDetailsMapperExternalAwsRole', {
+      assumedBy: a,
+      description: 'External AWS role for other AWS account['+ accId +'] to read the Category Details Mapper AWS App config.',
+    });
+
+    // 👇 Create a Managed Policy and associate it with the role
+    const managedPolicy = new iam.ManagedPolicy(this, 'CategoryDetailsMapperAppConfigReadPolicy', {
+      description: 'Allows app-config read access',
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ['appconfig:GetLatestConfiguration', 'appconfig:StartConfigurationSession'],
+          resources: ['arn:aws:appconfig:us-east-1:638373575924:application/CategoryDetailsConfig/environment/CategoryDetailsConfig-env/configuration/CategoryDetailsConfigProfile-S3BasedConfigurationProfile'],
+        }),
+      ],
+      roles: [role],
+    });
+
     // The code that defines your stack goes here
 
-    var amzQueueExemption = new sqs.Queue(this, 'AmzQueueExemption');
+    var amzQueueExemption = new sqs.Queue(this, 'AmzQueueExemption', 
+    {
+       "visibilityTimeout" : Duration.minutes(3)
+    });
 
     var producerPath = path.join(__dirname, 'producer-lambda');
     var consumerPath = path.join(__dirname, 'consumer-lambda');
@@ -23,7 +48,7 @@ export class VenkatInfraStack extends Stack {
       partitionKey: { name: 'appealId', type: dynamodb.AttributeType.STRING },
     });
 
-    var amzProducerLambda = new lambda.Function(this, '', {
+    var amzProducerLambda = new lambda.Function(this, 'AmzProducerLambda', {
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: 'lambda2.lambda_handler',
       code: lambda.Code.fromAsset(producerPath),

@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2d05b42437daded4dd396a34927b483de5f694135c411de9129e2589a84203ed.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3a35af76a7942baed024369a740ef0dccffd672c82f0e3d52a1386c627cc21bf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -39,58 +39,58 @@
         "VenkatInfraStack.assets"
       ],
       "metadata": {
-        "/VenkatInfraStack/VenkatQueue1/Resource": [
+        "/VenkatInfraStack/AmzQueueExemption/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatQueue1D2E0562D"
+            "data": "AmzQueueExemptionDA6AB15A"
           }
         ],
-        "/VenkatInfraStack/VenkatExecutionDetails/Resource": [
+        "/VenkatInfraStack/AmzTable/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatExecutionDetails6D1FC840"
+            "data": "AmzTable68895818"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction1/ServiceRole/Resource": [
+        "/VenkatInfraStack/AmzProducerLambda/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction1ServiceRole2F0ADFD8"
+            "data": "AmzProducerLambdaServiceRoleBADE67C6"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction1/ServiceRole/DefaultPolicy/Resource": [
+        "/VenkatInfraStack/AmzProducerLambda/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction1ServiceRoleDefaultPolicy78F1400A"
+            "data": "AmzProducerLambdaServiceRoleDefaultPolicy5C3A5CE9"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction1/Resource": [
+        "/VenkatInfraStack/AmzProducerLambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction14E9CD1C7"
+            "data": "AmzProducerLambda13CD49D6"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction2/ServiceRole/Resource": [
+        "/VenkatInfraStack/AmzConsumerLambda/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction2ServiceRole93C3F041"
+            "data": "AmzConsumerLambdaServiceRole98B34DF3"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction2/ServiceRole/DefaultPolicy/Resource": [
+        "/VenkatInfraStack/AmzConsumerLambda/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction2ServiceRoleDefaultPolicy78F19092"
+            "data": "AmzConsumerLambdaServiceRoleDefaultPolicy87D2633E"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction2/Resource": [
+        "/VenkatInfraStack/AmzConsumerLambda/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction22571F974"
+            "data": "AmzConsumerLambdaBC503C91"
           }
         ],
-        "/VenkatInfraStack/VenkatFunction2/SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20/Resource": [
+        "/VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "VenkatFunction2SqsEventSourceVenkatInfraStackVenkatQueue1DF56FB20CA09F5D4"
+            "data": "AmzConsumerLambdaSqsEventSourceVenkatInfraStackAmzQueueExemption75FFDCDE1199B59C"
           }
         ],
         "/VenkatInfraStack/CDKMetadata/Default": [

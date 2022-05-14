@@ -16,16 +16,18 @@
         "id": "VenkatInfraStack",
         "path": "VenkatInfraStack",
         "children": {
-          "VenkatQueue1": {
-            "id": "VenkatQueue1",
-            "path": "VenkatInfraStack/VenkatQueue1",
+          "AmzQueueExemption": {
+            "id": "AmzQueueExemption",
+            "path": "VenkatInfraStack/AmzQueueExemption",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "VenkatInfraStack/VenkatQueue1/Resource",
+                "path": "VenkatInfraStack/AmzQueueExemption/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
-                  "aws:cdk:cloudformation:props": {}
+                  "aws:cdk:cloudformation:props": {
+                    "visibilityTimeout": 180
+                  }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_sqs.CfnQueue",
@@ -38,13 +40,13 @@
               "version": "2.16.0"
             }
           },
-          "VenkatExecutionDetails": {
-            "id": "VenkatExecutionDetails",
-            "path": "VenkatInfraStack/VenkatExecutionDetails",
+          "AmzTable": {
+            "id": "AmzTable",
+            "path": "VenkatInfraStack/AmzTable",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "VenkatInfraStack/VenkatExecutionDetails/Resource",
+                "path": "VenkatInfraStack/AmzTable/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
                   "aws:cdk:cloudformation:props": {
@@ -73,7 +75,7 @@
               },
               "ScalingRole": {
                 "id": "ScalingRole",
-                "path": "VenkatInfraStack/VenkatExecutionDetails/ScalingRole",
+                "path": "VenkatInfraStack/AmzTable/ScalingRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.16.0"
@@ -85,17 +87,17 @@
               "version": "2.16.0"
             }
           },
-          "VenkatFunction1": {
-            "id": "VenkatFunction1",
-            "path": "VenkatInfraStack/VenkatFunction1",
+          "AmzProducerLambda": {
+            "id": "AmzProducerLambda",
+            "path": "VenkatInfraStack/AmzProducerLambda",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "VenkatInfraStack/VenkatFunction1/ServiceRole",
+                "path": "VenkatInfraStack/AmzProducerLambda/ServiceRole",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "VenkatInfraStack/VenkatFunction1/ServiceRole/Resource",
+                    "path": "VenkatInfraStack/AmzProducerLambda/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -134,11 +136,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "VenkatInfraStack/VenkatFunction1/ServiceRole/DefaultPolicy",
+                    "path": "VenkatInfraStack/AmzProducerLambda/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "VenkatInfraStack/VenkatFunction1/ServiceRole/DefaultPolicy/Resource",
+                        "path": "VenkatInfraStack/AmzProducerLambda/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -153,7 +155,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "VenkatQueue1D2E0562D",
+                                      "AmzQueueExemptionDA6AB15A",
                                       "Arn"
                                     ]
                                   }
@@ -161,10 +163,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "VenkatFunction1ServiceRoleDefaultPolicy78F1400A",
+                            "policyName": "AmzProducerLambdaServiceRoleDefaultPolicy5C3A5CE9",
                             "roles": [
                               {
-                                "Ref": "VenkatFunction1ServiceRole2F0ADFD8"
+                                "Ref": "AmzProducerLambdaServiceRoleBADE67C6"
                               }
                             ]
                           }
@@ -188,11 +190,11 @@
               },
               "Code": {
                 "id": "Code",
-                "path": "VenkatInfraStack/VenkatFunction1/Code",
+                "path": "VenkatInfraStack/AmzProducerLambda/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "VenkatInfraStack/VenkatFunction1/Code/Stage",
+                    "path": "VenkatInfraStack/AmzProducerLambda/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.16.0"
@@ -200,7 +202,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "VenkatInfraStack/VenkatFunction1/Code/AssetBucket",
+                    "path": "VenkatInfraStack/AmzProducerLambda/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.16.0"
@@ -214,7 +216,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "VenkatInfraStack/VenkatFunction1/Resource",
+                "path": "VenkatInfraStack/AmzProducerLambda/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -222,19 +224,19 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "0cd72b51d7341d1d6f61b3f62c3822b7c2d4a6c41ffd1b50fe72e52a821963a7.zip"
+                      "s3Key": "47bf002f6c3ed6a20e957308363ff07c57836a1e8477fa5dbe3cc6d732dff0a7.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
-                        "VenkatFunction1ServiceRole2F0ADFD8",
+                        "AmzProducerLambdaServiceRoleBADE67C6",
                         "Arn"
                       ]
                     },
                     "environment": {
                       "variables": {
-                        "queue_name": {
+                        "amz_queue_name": {
                           "Fn::GetAtt": [
-                            "VenkatQueue1D2E0562D",
+                            "AmzQueueExemptionDA6AB15A",
                             "QueueName"
                           ]
                         }
@@ -256,17 +258,17 @@
               "version": "2.16.0"
             }
           },
-          "VenkatFunction2": {
-            "id": "VenkatFunction2",
-            "path": "VenkatInfraStack/VenkatFunction2",
+          "AmzConsumerLambda": {
+            "id": "AmzConsumerLambda",
+            "path": "VenkatInfraStack/AmzConsumerLambda",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "VenkatInfraStack/VenkatFunction2/ServiceRole",
+                "path": "VenkatInfraStack/AmzConsumerLambda/ServiceRole",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "VenkatInfraStack/VenkatFunction2/ServiceRole/Resource",
+                    "path": "VenkatInfraStack/AmzConsumerLambda/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -305,11 +307,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "VenkatInfraStack/VenkatFunction2/ServiceRole/DefaultPolicy",
+                    "path": "VenkatInfraStack/AmzConsumerLambda/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "VenkatInfraStack/VenkatFunction2/ServiceRole/DefaultPolicy/Resource",
+                        "path": "VenkatInfraStack/AmzConsumerLambda/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -334,7 +336,7 @@
                                   "Resource": [
                                     {
                                       "Fn::GetAtt": [
-                                        "VenkatExecutionDetails6D1FC840",
+                                        "AmzTable68895818",
                                         "Arn"
                                       ]
                                     },
@@ -354,7 +356,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "VenkatQueue1D2E0562D",
+                                      "AmzQueueExemptionDA6AB15A",
                                       "Arn"
                                     ]
                                   }
@@ -362,10 +364,10 @@
                               ],
                               "Version": "2012-10-17"
                             },
-                            "policyName": "VenkatFunction2ServiceRoleDefaultPolicy78F19092",
+                            "policyName": "AmzConsumerLambdaServiceRoleDefaultPolicy87D2633E",
                             "roles": [
                               {
-                                "Ref": "VenkatFunction2ServiceRole93C3F041"
+                                "Ref": "AmzConsumerLambdaServiceRole98B34DF3"
                               }
                             ]
                           }
@@ -389,11 +391,11 @@
               },
               "Code": {
                 "id": "Code",
-                "path": "VenkatInfraStack/VenkatFunction2/Code",
+                "path": "VenkatInfraStack/AmzConsumerLambda/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "VenkatInfraStack/VenkatFunction2/Code/Stage",
+                    "path": "VenkatInfraStack/AmzConsumerLambda/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.16.0"
@@ -401,7 +403,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "VenkatInfraStack/VenkatFunction2/Code/AssetBucket",
+                    "path": "VenkatInfraStack/AmzConsumerLambda/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.16.0"
@@ -415,7 +417,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "VenkatInfraStack/VenkatFunction2/Resource",
+                "path": "VenkatInfraStack/AmzConsumerLambda/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -423,18 +425,18 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "edf7b5d8ee78085d551d427f3ceffa8a2e575aa8d0c9ebeaa7489a0081561a38.zip"
+                      "s3Key": "d195e0b7663230178635995646d1143b837ffb05506cf1678d411ea663031f5b.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
-                        "VenkatFunction2ServiceRole93C3F041",
+                        "AmzConsumerLambdaServiceRole98B34DF3",
                         "Arn"
                       ]
                     },
                     "environment": {
                       "variables": {
-                        "execution_db_name": {
-                          "Ref": "VenkatExecutionDetails6D1FC840"
+                        "amz_db_name": {
+                          "Ref": "AmzTable68895818"
                         }
                       }
                     },
@@ -448,23 +450,23 @@
                   "version": "2.16.0"
                 }
               },
-              "SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20": {
-                "id": "SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20",
-                "path": "VenkatInfraStack/VenkatFunction2/SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20",
+              "SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE": {
+                "id": "SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE",
+                "path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "VenkatInfraStack/VenkatFunction2/SqsEventSource:VenkatInfraStackVenkatQueue1DF56FB20/Resource",
+                    "path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
                       "aws:cdk:cloudformation:props": {
                         "functionName": {
-                          "Ref": "VenkatFunction22571F974"
+                          "Ref": "AmzConsumerLambdaBC503C91"
                         },
                         "batchSize": 10,
                         "eventSourceArn": {
                           "Fn::GetAtt": [
-                            "VenkatQueue1D2E0562D",
+                            "AmzQueueExemptionDA6AB15A",
                             "Arn"
                           ]
                         }
