@@ -17,12 +17,14 @@ export class VenkatInfraStack extends Stack {
     var accId = "161069081910";
     var a = new AccountPrincipal(accId);
     const role = new iam.Role(this, 'CategoryDetailsMapperExternalAwsRole', {
+      roleName: 'CategoryDetailsMapperExternalAwsRole',
       assumedBy: a,
       description: 'External AWS role for other AWS account['+ accId +'] to read the Category Details Mapper AWS App config.',
     });
 
     // 👇 Create a Managed Policy and associate it with the role
     const managedPolicy = new iam.ManagedPolicy(this, 'CategoryDetailsMapperAppConfigReadPolicy', {
+      managedPolicyName: "CategoryDetailsMapperAppConfigReadPolicy",
       description: 'Allows app-config read access',
       statements: [
         new iam.PolicyStatement({
@@ -36,8 +38,9 @@ export class VenkatInfraStack extends Stack {
 
     // The code that defines your stack goes here
 
-    var amzQueueExemption = new sqs.Queue(this, 'AmzQueueExemption', 
+    var amzSQSQueue = new sqs.Queue(this, 'AmzSQSQueue', 
     {
+       queueName: 'AmzSQSQueue',
        "visibilityTimeout" : Duration.minutes(3)
     });
 
@@ -45,20 +48,23 @@ export class VenkatInfraStack extends Stack {
     var consumerPath = path.join(__dirname, 'consumer-lambda');
 
     const amzTable = new dynamodb.Table(this, 'AmzTable', {
+      tableName: 'AmzTable',
       partitionKey: { name: 'appealId', type: dynamodb.AttributeType.STRING },
     });
 
     var amzProducerLambda = new lambda.Function(this, 'AmzProducerLambda', {
+      functionName: 'AmzProducerLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: 'lambda2.lambda_handler',
       code: lambda.Code.fromAsset(producerPath),
       timeout : Duration.minutes(3),
       environment : {
-        "amz_queue_name": amzQueueExemption.queueName,
+        "amz_queue_name": amzSQSQueue.queueName,
       },
     });
 
     var amzConsumerLambda = new lambda.Function(this, 'AmzConsumerLambda', {
+      functionName: 'AmzConsumerLambda',
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: 'lambda1.lambda_handler',
       code: lambda.Code.fromAsset(consumerPath),
@@ -68,11 +74,11 @@ export class VenkatInfraStack extends Stack {
       },
     });
 
-    amzQueueExemption.grantSendMessages(amzProducerLambda);
+    amzSQSQueue.grantSendMessages(amzProducerLambda);
     amzTable.grantReadWriteData(amzConsumerLambda);
 
     amzConsumerLambda.addEventSource(
-      new SqsEventSource(amzQueueExemption, {
+      new SqsEventSource(amzSQSQueue, {
         batchSize: 10,
       }),
     );

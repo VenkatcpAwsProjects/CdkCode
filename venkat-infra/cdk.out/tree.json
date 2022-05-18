@@ -16,6 +16,96 @@
         "id": "VenkatInfraStack",
         "path": "VenkatInfraStack",
         "children": {
+          "CategoryDetailsMapperExternalAwsRole": {
+            "id": "CategoryDetailsMapperExternalAwsRole",
+            "path": "VenkatInfraStack/CategoryDetailsMapperExternalAwsRole",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VenkatInfraStack/CategoryDetailsMapperExternalAwsRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::161069081910:root"
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "description": "External AWS role for other AWS account[161069081910] to read the Category Details Mapper AWS App config."
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.16.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.16.0"
+            }
+          },
+          "CategoryDetailsMapperAppConfigReadPolicy": {
+            "id": "CategoryDetailsMapperAppConfigReadPolicy",
+            "path": "VenkatInfraStack/CategoryDetailsMapperAppConfigReadPolicy",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "VenkatInfraStack/CategoryDetailsMapperAppConfigReadPolicy/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::ManagedPolicy",
+                  "aws:cdk:cloudformation:props": {
+                    "policyDocument": {
+                      "Statement": [
+                        {
+                          "Action": [
+                            "appconfig:GetLatestConfiguration",
+                            "appconfig:StartConfigurationSession"
+                          ],
+                          "Effect": "Allow",
+                          "Resource": "arn:aws:appconfig:us-east-1:638373575924:application/CategoryDetailsConfig/environment/CategoryDetailsConfig-env/configuration/CategoryDetailsConfigProfile-S3BasedConfigurationProfile"
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "description": "Allows app-config read access",
+                    "path": "/",
+                    "roles": [
+                      {
+                        "Ref": "CategoryDetailsMapperExternalAwsRoleD2526B37"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnManagedPolicy",
+                  "version": "2.16.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.ManagedPolicy",
+              "version": "2.16.0"
+            }
+          },
           "AmzQueueExemption": {
             "id": "AmzQueueExemption",
             "path": "VenkatInfraStack/AmzQueueExemption",

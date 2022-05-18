@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3a35af76a7942baed024369a740ef0dccffd672c82f0e3d52a1386c627cc21bf.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e48e826861d2cd43f161aaf2dd78351656f53fb31d77cb44f5690d56163def6e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -39,6 +39,18 @@
         "VenkatInfraStack.assets"
       ],
       "metadata": {
+        "/VenkatInfraStack/CategoryDetailsMapperExternalAwsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CategoryDetailsMapperExternalAwsRoleD2526B37"
+          }
+        ],
+        "/VenkatInfraStack/CategoryDetailsMapperAppConfigReadPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CategoryDetailsMapperAppConfigReadPolicy87AC42A1"
+          }
+        ],
         "/VenkatInfraStack/AmzQueueExemption/Resource": [
           {
             "type": "aws:cdk:logicalId",

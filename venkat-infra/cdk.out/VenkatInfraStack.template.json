@@ -1,5 +1,65 @@
 {
   "Resources": {
+    "CategoryDetailsMapperExternalAwsRoleD2526B37": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::161069081910:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "External AWS role for other AWS account[161069081910] to read the Category Details Mapper AWS App config."
+      },
+      "Metadata": {
+        "aws:cdk:path": "VenkatInfraStack/CategoryDetailsMapperExternalAwsRole/Resource"
+      }
+    },
+    "CategoryDetailsMapperAppConfigReadPolicy87AC42A1": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "appconfig:GetLatestConfiguration",
+                "appconfig:StartConfigurationSession"
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:appconfig:us-east-1:638373575924:application/CategoryDetailsConfig/environment/CategoryDetailsConfig-env/configuration/CategoryDetailsConfigProfile-S3BasedConfigurationProfile"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Description": "Allows app-config read access",
+        "Path": "/",
+        "Roles": [
+          {
+            "Ref": "CategoryDetailsMapperExternalAwsRoleD2526B37"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VenkatInfraStack/CategoryDetailsMapperAppConfigReadPolicy/Resource"
+      }
+    },
     "AmzQueueExemptionDA6AB15A": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
@@ -299,7 +359,7 @@
     "CDKMetadata": {
       "Type": "AWS::CDK::Metadata",
       "Properties": {
-        "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WQTU/DMAyGfwv31DBA3NkENyTouE9uYiavrTPmZGiK8t9JUrQLp/exX8tf97B6grsb/NHOurGbeIC0DWhHU1K7pN8K6SNSJLP5kgbZuIvg7F2p/MRhak6DbCacB4eQXqPYwF6qdeWXM0nY+niy9IbHI8u+2v+z2TDOkHq/tG767ie2lxoulI0+7FCVgsJzlRLDOtqRwhq1bNKTtp6mueWi/d+8q1F448Vx3S0b8Y7goLfn8o7VY/nIQZm7U5TAM0G/6C+mpEPCLQEAAA=="
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQ0W7CMAz8lr2nZmwT74DGG9Ioe0du4lWhrQM4YUJR/50knZimPd35zrqT/QLzBTw/4bdU2nRVbxuIe4+6U0k6RIsDxNr1pNZfXHCLjC2ZD9dbfcvqX+FXn9io5CwQd4FCyShkVObGODiTyj6xmdILGVWPQ2MQ4iaw9tZxth78/Urs9y5cNG3xdLLcZvu/mlpfDyhCXmCZIc2wCrojv0JJLTVJ2VfFTQe3P1kPI/G1Y2Nz76jYGYKjzK7pW/O39LCjWFtdAns7ENQT3gFPcjZcTAEAAA=="
       },
       "Metadata": {
         "aws:cdk:path": "VenkatInfraStack/CDKMetadata/Default"
