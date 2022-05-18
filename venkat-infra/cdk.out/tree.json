@@ -49,7 +49,8 @@
                       ],
                       "Version": "2012-10-17"
                     },
-                    "description": "External AWS role for other AWS account[161069081910] to read the Category Details Mapper AWS App config."
+                    "description": "External AWS role for other AWS account[161069081910] to read the Category Details Mapper AWS App config.",
+                    "roleName": "CategoryDetailsMapperExternalAwsRole"
                   }
                 },
                 "constructInfo": {
@@ -87,6 +88,7 @@
                       "Version": "2012-10-17"
                     },
                     "description": "Allows app-config read access",
+                    "managedPolicyName": "CategoryDetailsMapperAppConfigReadPolicy",
                     "path": "/",
                     "roles": [
                       {
@@ -106,16 +108,17 @@
               "version": "2.16.0"
             }
           },
-          "AmzQueueExemption": {
-            "id": "AmzQueueExemption",
-            "path": "VenkatInfraStack/AmzQueueExemption",
+          "AmzSQSQueue": {
+            "id": "AmzSQSQueue",
+            "path": "VenkatInfraStack/AmzSQSQueue",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "VenkatInfraStack/AmzQueueExemption/Resource",
+                "path": "VenkatInfraStack/AmzSQSQueue/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
                   "aws:cdk:cloudformation:props": {
+                    "queueName": "AmzSQSQueue",
                     "visibilityTimeout": 180
                   }
                 },
@@ -155,7 +158,8 @@
                     "provisionedThroughput": {
                       "readCapacityUnits": 5,
                       "writeCapacityUnits": 5
-                    }
+                    },
+                    "tableName": "AmzTable"
                   }
                 },
                 "constructInfo": {
@@ -245,7 +249,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "AmzQueueExemptionDA6AB15A",
+                                      "AmzSQSQueueA52CB2F1",
                                       "Arn"
                                     ]
                                   }
@@ -326,12 +330,13 @@
                       "variables": {
                         "amz_queue_name": {
                           "Fn::GetAtt": [
-                            "AmzQueueExemptionDA6AB15A",
+                            "AmzSQSQueueA52CB2F1",
                             "QueueName"
                           ]
                         }
                       }
                     },
+                    "functionName": "AmzProducerLambda",
                     "handler": "lambda2.lambda_handler",
                     "runtime": "python3.9",
                     "timeout": 180
@@ -446,7 +451,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "AmzQueueExemptionDA6AB15A",
+                                      "AmzSQSQueueA52CB2F1",
                                       "Arn"
                                     ]
                                   }
@@ -530,6 +535,7 @@
                         }
                       }
                     },
+                    "functionName": "AmzConsumerLambda",
                     "handler": "lambda1.lambda_handler",
                     "runtime": "python3.9",
                     "timeout": 120
@@ -540,13 +546,13 @@
                   "version": "2.16.0"
                 }
               },
-              "SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE": {
-                "id": "SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE",
-                "path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE",
+              "SqsEventSource:VenkatInfraStackAmzSQSQueueC63EA548": {
+                "id": "SqsEventSource:VenkatInfraStackAmzSQSQueueC63EA548",
+                "path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzSQSQueueC63EA548",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE/Resource",
+                    "path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzSQSQueueC63EA548/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
                       "aws:cdk:cloudformation:props": {
@@ -556,7 +562,7 @@
                         "batchSize": 10,
                         "eventSourceArn": {
                           "Fn::GetAtt": [
-                            "AmzQueueExemptionDA6AB15A",
+                            "AmzSQSQueueA52CB2F1",
                             "Arn"
                           ]
                         }

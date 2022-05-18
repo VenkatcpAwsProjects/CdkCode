@@ -23,7 +23,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e48e826861d2cd43f161aaf2dd78351656f53fb31d77cb44f5690d56163def6e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/31d16058e033ff385adcc5b20e9d1d38f6fbda11c73005823f92b80e827aecca.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -51,10 +51,18 @@
             "data": "CategoryDetailsMapperAppConfigReadPolicy87AC42A1"
           }
         ],
-        "/VenkatInfraStack/AmzQueueExemption/Resource": [
+        "/VenkatInfraStack/AmzSQSQueue/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AmzQueueExemptionDA6AB15A"
+            "data": "AmzSQSQueueA52CB2F1"
+          }
+        ],
+        "/VenkatInfraStack/AmzTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "AmzTable68895818"
+            }
           }
         ],
         "/VenkatInfraStack/AmzTable/Resource": [
@@ -99,10 +107,10 @@
             "data": "AmzConsumerLambdaBC503C91"
           }
         ],
-        "/VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE/Resource": [
+        "/VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzSQSQueueC63EA548/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AmzConsumerLambdaSqsEventSourceVenkatInfraStackAmzQueueExemption75FFDCDE1199B59C"
+            "data": "AmzConsumerLambdaSqsEventSourceVenkatInfraStackAmzSQSQueueC63EA54892142057"
           }
         ],
         "/VenkatInfraStack/CDKMetadata/Default": [

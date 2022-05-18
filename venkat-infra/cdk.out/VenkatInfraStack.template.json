@@ -26,7 +26,8 @@
           ],
           "Version": "2012-10-17"
         },
-        "Description": "External AWS role for other AWS account[161069081910] to read the Category Details Mapper AWS App config."
+        "Description": "External AWS role for other AWS account[161069081910] to read the Category Details Mapper AWS App config.",
+        "RoleName": "CategoryDetailsMapperExternalAwsRole"
       },
       "Metadata": {
         "aws:cdk:path": "VenkatInfraStack/CategoryDetailsMapperExternalAwsRole/Resource"
@@ -49,6 +50,7 @@
           "Version": "2012-10-17"
         },
         "Description": "Allows app-config read access",
+        "ManagedPolicyName": "CategoryDetailsMapperAppConfigReadPolicy",
         "Path": "/",
         "Roles": [
           {
@@ -60,15 +62,16 @@
         "aws:cdk:path": "VenkatInfraStack/CategoryDetailsMapperAppConfigReadPolicy/Resource"
       }
     },
-    "AmzQueueExemptionDA6AB15A": {
+    "AmzSQSQueueA52CB2F1": {
       "Type": "AWS::SQS::Queue",
       "Properties": {
+        "QueueName": "AmzSQSQueue",
         "VisibilityTimeout": 180
       },
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "VenkatInfraStack/AmzQueueExemption/Resource"
+        "aws:cdk:path": "VenkatInfraStack/AmzSQSQueue/Resource"
       }
     },
     "AmzTable68895818": {
@@ -89,7 +92,8 @@
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 5,
           "WriteCapacityUnits": 5
-        }
+        },
+        "TableName": "AmzTable"
       },
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
@@ -145,7 +149,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "AmzQueueExemptionDA6AB15A",
+                  "AmzSQSQueueA52CB2F1",
                   "Arn"
                 ]
               }
@@ -183,12 +187,13 @@
           "Variables": {
             "amz_queue_name": {
               "Fn::GetAtt": [
-                "AmzQueueExemptionDA6AB15A",
+                "AmzSQSQueueA52CB2F1",
                 "QueueName"
               ]
             }
           }
         },
+        "FunctionName": "AmzProducerLambda",
         "Handler": "lambda2.lambda_handler",
         "Runtime": "python3.9",
         "Timeout": 180
@@ -282,7 +287,7 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "AmzQueueExemptionDA6AB15A",
+                  "AmzSQSQueueA52CB2F1",
                   "Arn"
                 ]
               }
@@ -323,6 +328,7 @@
             }
           }
         },
+        "FunctionName": "AmzConsumerLambda",
         "Handler": "lambda1.lambda_handler",
         "Runtime": "python3.9",
         "Timeout": 120
@@ -338,7 +344,7 @@
         "aws:asset:property": "Code"
       }
     },
-    "AmzConsumerLambdaSqsEventSourceVenkatInfraStackAmzQueueExemption75FFDCDE1199B59C": {
+    "AmzConsumerLambdaSqsEventSourceVenkatInfraStackAmzSQSQueueC63EA54892142057": {
       "Type": "AWS::Lambda::EventSourceMapping",
       "Properties": {
         "FunctionName": {
@@ -347,13 +353,13 @@
         "BatchSize": 10,
         "EventSourceArn": {
           "Fn::GetAtt": [
-            "AmzQueueExemptionDA6AB15A",
+            "AmzSQSQueueA52CB2F1",
             "Arn"
           ]
         }
       },
       "Metadata": {
-        "aws:cdk:path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzQueueExemption75FFDCDE/Resource"
+        "aws:cdk:path": "VenkatInfraStack/AmzConsumerLambda/SqsEventSource:VenkatInfraStackAmzSQSQueueC63EA548/Resource"
       }
     },
     "CDKMetadata": {

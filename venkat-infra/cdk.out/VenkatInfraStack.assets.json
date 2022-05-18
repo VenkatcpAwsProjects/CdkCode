@@ -27,7 +27,7 @@
         }
       }
     },
-    "e48e826861d2cd43f161aaf2dd78351656f53fb31d77cb44f5690d56163def6e": {
+    "31d16058e033ff385adcc5b20e9d1d38f6fbda11c73005823f92b80e827aecca": {
       "source": {
         "path": "VenkatInfraStack.template.json",
         "packaging": "file"
@@ -35,7 +35,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "e48e826861d2cd43f161aaf2dd78351656f53fb31d77cb44f5690d56163def6e.json",
+          "objectKey": "31d16058e033ff385adcc5b20e9d1d38f6fbda11c73005823f92b80e827aecca.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

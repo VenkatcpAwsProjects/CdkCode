@@ -1,0 +1,8 @@
+{
+    "Records" : 
+    [
+        {
+            "body" : "{\"appealId\":\"a12345\",\"pt\":\"pt1\",\"vendorCode\":\"v1\",\"brand\":\"TestBrand\"}"
+        }
+    ]
+}
