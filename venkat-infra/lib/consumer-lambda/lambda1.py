@@ -7,13 +7,15 @@ client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     TableName = os.environ.get("amz_db_name")
-    #hi venkat
     for record in event['Records']:
         payload = record["body"]
         message = json.loads(payload)
         client.put_item(TableName=TableName, Item={
-        'appealId': {
-          'S':  message["appealId"]+"-"+message["pt"]+"-"+message["vendorCode"]
+        'appealId':{
+            'S': message["appealId"]
+        },
+        'appealDedupId': {
+          'S':  message["pt"]+"-"+message["vendorCode"]
         },
         'pt': {
           'S':  message["pt"]

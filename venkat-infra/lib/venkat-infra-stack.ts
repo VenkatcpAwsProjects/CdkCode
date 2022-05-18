@@ -47,9 +47,10 @@ export class VenkatInfraStack extends Stack {
     var producerPath = path.join(__dirname, 'producer-lambda');
     var consumerPath = path.join(__dirname, 'consumer-lambda');
 
-    const amzTable = new dynamodb.Table(this, 'AmzTable', {
-      tableName: 'AmzTable',
+    const amzTable = new dynamodb.Table(this, 'AmzAppealTable', {
+      tableName: 'AmzAppealTable',
       partitionKey: { name: 'appealId', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'appealDedupId', type: dynamodb.AttributeType.STRING }
     });
 
     var amzProducerLambda = new lambda.Function(this, 'AmzProducerLambda', {

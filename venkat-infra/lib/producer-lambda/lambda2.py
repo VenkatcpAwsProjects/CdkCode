@@ -9,7 +9,6 @@ def send_sqs_message(QueueName, msg_body):
     sqs_queue_url = sqs_client.get_queue_url(
     QueueName=QueueName
 )['QueueUrl']
-    print("venkat007 : a "+QueueName)
     try:
         msg = sqs_client.send_message(QueueUrl=sqs_queue_url,
                                       MessageBody=json.dumps(msg_body))
