@@ -7,6 +7,7 @@ import * as path from 'path';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { AccountPrincipal, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 export class VenkatInfraStack extends Stack {
@@ -46,6 +47,7 @@ export class VenkatInfraStack extends Stack {
 
     var producerPath = path.join(__dirname, 'producer-lambda');
     var consumerPath = path.join(__dirname, 'consumer-lambda');
+    var statusCheckPath = path.join(__dirname, 'status-check-lambda');
 
     const amzTable = new dynamodb.Table(this, 'AmzAppealTable', {
       tableName: 'AmzAppealTable',
@@ -75,8 +77,28 @@ export class VenkatInfraStack extends Stack {
       },
     });
 
+    var amzGetAppealStatusLambda = new lambda.Function(this, 'AmzGetAppealStatusLambda', {
+      functionName: 'AmzGetAppealStatusLambda',
+      runtime: lambda.Runtime.PYTHON_3_9,
+      handler: 'lambda3.lambda_handler',
+      code: lambda.Code.fromAsset(statusCheckPath),
+      timeout : Duration.minutes(2),
+      environment : {
+        "amz_db_name": amzTable.tableName,
+      },
+    });
+
+    const apiGateWay = new apigateway.RestApi(this, 'appeal');
+    const appealStatus = apiGateWay.root.addResource('appealstatus');
+    appealStatus.addMethod('GET', new apigateway.LambdaIntegration(amzGetAppealStatusLambda, 
+      {
+        proxy: true,
+      }));
+
+
     amzSQSQueue.grantSendMessages(amzProducerLambda);
     amzTable.grantReadWriteData(amzConsumerLambda);
+    amzTable.grantReadWriteData(amzGetAppealStatusLambda);
 
     amzConsumerLambda.addEventSource(
       new SqsEventSource(amzSQSQueue, {

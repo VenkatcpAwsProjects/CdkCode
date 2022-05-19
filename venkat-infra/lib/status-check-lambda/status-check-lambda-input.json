@@ -1,0 +1,51 @@
+{
+    "resource": "/appealstatus",
+    "path": "/appealstatus",
+    "httpMethod": "POST",
+    "headers": null,
+    "multiValueHeaders": null,
+    "queryStringParameters": {
+      "appealId": "12345"
+    },
+    "multiValueQueryStringParameters": {
+      "appealId": [
+        "12345"
+      ]
+    },
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+      "resourceId": "x86xmi",
+      "resourcePath": "/appealstatus",
+      "httpMethod": "POST",
+      "extendedRequestId": "SXET6FCgPHcFmpw=",
+      "requestTime": "19/May/2022:06:44:28 +0000",
+      "path": "/appealstatus",
+      "accountId": "638373575924",
+      "protocol": "HTTP/1.1",
+      "stage": "test-invoke-stage",
+      "domainPrefix": "testPrefix",
+      "requestTimeEpoch": 1652942668096,
+      "requestId": "e953fdba-77ba-40e0-b78f-7830a4b17f6a",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "cognitoIdentityId": null,
+        "apiKey": "test-invoke-api-key",
+        "principalOrgId": null,
+        "cognitoAuthenticationType": null,
+        "userArn": "arn:aws:sts::638373575924:assumed-role/IibsAdminAccess-DO-NOT-DELETE/ConduitAccountService+Prod+Default+NA+Fleet+P-venkatcp",
+        "apiKeyId": "test-invoke-api-key-id",
+        "userAgent": "aws-internal/3 aws-sdk-java/1.12.201 Linux/5.4.181-109.354.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.322-b06 java/1.8.0_322 vendor/Oracle_Corporation cfg/retry-mode/standard",
+        "accountId": "638373575924",
+        "caller": "AROAZJIQHXT2FHODIIWIN:ConduitAccountService+Prod+Default+NA+Fleet+P-venkatcp",
+        "sourceIp": "test-invoke-source-ip",
+        "accessKey": "ASIAZJIQHXT2CNH47M6O",
+        "cognitoAuthenticationProvider": null,
+        "user": "AROAZJIQHXT2FHODIIWIN:ConduitAccountService+Prod+Default+NA+Fleet+P-venkatcp"
+      },
+      "domainName": "testPrefix.testDomainName",
+      "apiId": "7zot15bzia"
+    },
+    "body": null,
+    "isBase64Encoded": false
+  }
