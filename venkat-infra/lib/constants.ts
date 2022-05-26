@@ -13,6 +13,5 @@ export class Constants
     public  static readonly AmzGetAppealStatusLambda : string = 'AmzGetAppealStatusLambda';
     public  static readonly appeal : string = 'appeal';
     public  static readonly appealStatus : string = 'appealstatus';
-    public  static readonly GET : string = 'GET';
-    
+    public  static readonly GET : string = 'GET'; 
 }

@@ -1,6 +1,8 @@
 {
-    "vendorCodes" : [ "v1", "v2", "v3" ],
-    "brand" : "TestBrand",
-    "appealId" : "12345",
-    "pts" : [ "pt1", "pt2", "pt3" ]
+    "Records":
+    [
+        {
+            "body": "{\"vendorCode\":\"v1\",\"brand\":\"TestBrand\",\"appealId\":\"12345\",\"pt\":\"pt1\"}"
+        }
+    ]
 }

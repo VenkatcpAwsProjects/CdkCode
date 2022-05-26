@@ -11,6 +11,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { AccountPrincipal, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Constants } from './constants';
+import { constants } from 'os';
 
 export class VenkatInfraStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -45,7 +46,8 @@ export class VenkatInfraStack extends Stack {
       code: lambda.Code.fromAsset(producerPath),
       timeout : Duration.minutes(3),
       environment : {
-        "amz_queue_name": amzSQSQueue.queueName,
+        "amz_queue_name": Constants.AmzSQSQueue,
+        "amz_appeal_table_name": Constants.AmzAppealTable,
       },
     });
 
@@ -56,7 +58,7 @@ export class VenkatInfraStack extends Stack {
       code: lambda.Code.fromAsset(consumerPath),
       timeout : Duration.minutes(2),
       environment : {
-        "amz_db_name": amzAppealTable.tableName,
+        "amz_appeal_status_table_name": Constants.AmzAppealStatusTable,
       },
     });
 
@@ -67,7 +69,8 @@ export class VenkatInfraStack extends Stack {
       code: lambda.Code.fromAsset(statusCheckPath),
       timeout : Duration.minutes(2),
       environment : {
-        "amz_db_name": amzAppealTable.tableName,
+        "amz_appeal_status_table_name": Constants.AmzAppealStatusTable,
+        "amz_appeal_table_name": Constants.AmzAppealTable,
       },
     });
 

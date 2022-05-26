@@ -17,9 +17,23 @@ def send_sqs_message(QueueName, msg_body):
         return None
     return msg
 
+def create_entry_in_db(event):
+    total = len(event["pts"]) * len(event["vendorCodes"])
+    db_client = boto3.client('dynamodb')
+    TableName = os.environ.get("amz_appeal_table_name")
+    db_client.put_item(TableName=TableName, Item={
+        'appealId':{
+            'S': event["appealId"]
+        },
+        'totalCount': {
+            'N': str(total)
+        }
+    })
+    pass
 
 def lambda_handler(event, context):
     QueueName = os.environ.get("amz_queue_name")
+    # amz_appeal_table_name
     # Set up logging
     logging.basicConfig(level=logging.DEBUG,
                         format='%(levelname)s: %(asctime)s: %(message)s')
@@ -27,6 +41,9 @@ def lambda_handler(event, context):
     brand = event["brand"]
     appealid = event["appealId"]
     pts = event["pts"]
+
+    # create entry in AmzAppealTable
+    create_entry_in_db(event)
 
     # Send some SQS messages
     for  vendorCode in vendorCodes:

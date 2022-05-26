@@ -6,7 +6,7 @@ import os
 client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
-    TableName = os.environ.get("amz_db_name")
+    TableName = os.environ.get("amz_appeal_status_table_name")
     for record in event['Records']:
         payload = record["body"]
         message = json.loads(payload)
